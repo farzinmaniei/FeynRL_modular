@@ -21,6 +21,12 @@ Read the guide to configure your environment and dependencies.
 🚀 **[Usage & Examples](experiments/README.md)**
 Learn how to launch jobs and run experiments.
 
+✅ **[Testing](tests/README.md)**
+Run unit and integration tests using `pytest`.
+```bash
+PYTHONPATH=. pytest
+```
+
 ## Contributing
 
 Contributions are welcome. Please keep changes easy to understand, test, and debug, and follow the existing style.
