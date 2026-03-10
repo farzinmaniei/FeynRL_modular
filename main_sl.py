@@ -428,12 +428,9 @@ if __name__ == "__main__":
 
         # Save as HuggingFace format
         if config.peft.use_peft:
-            # All ranks must participate in GatheredParameters for ZeRO-3,
-            # but only rank 0 writes the adapter weights to disk.
-            peft_params = [p for p in model_engine.module.parameters() if p.requires_grad]
-            with deepspeed.zero.GatheredParameters(peft_params, modifier_rank=0):
-                if rank == 0:
-                    model_engine.module.save_pretrained(model_path)
+            # For DeepSpeed ZeRO-3, all ranks must call save_pretrained to participate 
+            # in collective operations that gather the parameters internally.
+            model_engine.module.save_pretrained(model_path, is_main_process=(rank == 0))
         else:
             model_engine.save_16bit_model(model_path)
 
